@@ -1,0 +1,15 @@
+<%- include('includes/top.ejs') %>
+
+    <% if(users.length){ %>
+        <h1>List of users</h1>
+            <ul>
+                <% for(let user of users) { %>
+                <li><%= user.Name %></li>
+                <% } %>
+            </ul>
+    <% }else{%>
+        <h1>Currently there are no users.</h1>
+
+    <% } %>
+
+<%- include('includes/bottom.ejs') %>

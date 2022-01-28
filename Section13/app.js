@@ -11,6 +11,12 @@ const PORT = process.env.PORT || 3000; // So we can run on heroku || (OR) localh
 
 const cors = require('cors') // Place this with other requires (like 'path' and 'express')
 
+
+const MONGODB_URL = process.env.MONGODB_URL || "mongodb+srv://nodeJSTalk:f7KvKR6YKygZhik@cluster0.copz7.mongodb.net/shop?retryWrites=true&w=majority";
+
+
+const app = express();
+
 const corsOptions = {
   origin: "https://cse341-caylatribett-node.herokuapp.com/",
   optionsSuccessStatus: 200
@@ -20,11 +26,6 @@ app.use(cors(corsOptions));
 const options = {
   family: 4
 };
-
-const MONGODB_URL = process.env.MONGODB_URL || "mongodb+srv://nodeJSTalk:f7KvKR6YKygZhik@cluster0.copz7.mongodb.net/shop?retryWrites=true&w=majority";
-
-
-const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, "views"));

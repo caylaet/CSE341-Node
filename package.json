@@ -2,10 +2,10 @@
   "name": "cse341-node",
   "version": "1.0.0",
   "description": "Main init file",
-  "main": "./Section18/app.js",
+  "main": "./Section19/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node  ./Section18/app.js",
+    "start": "node  ./Section19/app.js",
     "start-dev": "nodemon app.js",
     "start-server": "node app.js"
   },

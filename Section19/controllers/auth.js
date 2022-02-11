@@ -170,7 +170,7 @@ exports.getReset = (req, res, next) => {
     message = null;
   }
 
-  res.render('auth/rest', {
+  res.render('auth/reset', {
     path: '/reset',
     pageTitle: 'Reset Password',
     errorMessage: message
@@ -190,7 +190,7 @@ exports.postReset = ( req, res, next) => {
         req.flash('error','No account with that email found.' );
         return res.redirect('/reset');
       }
-      user.restToken = token;
+      user.resetToken = token;
       user.resetTokenExpiration = Date.now() + 3600000;
       return user.save();
     })
@@ -198,7 +198,7 @@ exports.postReset = ( req, res, next) => {
       res.redirect('/');
       return transporter.sendMail({
         to: req.body.email,
-        from: 'shop@node-complete.com',
+        from: 'caylaew@gmail.com',
         subject: 'Password reset',
         html: `
         <p> You requested a password reset</p>
@@ -249,15 +249,18 @@ exports.postNewPassword = (req, res, next) => {
 
   let resetUser;
 
-  User.findOne({restToken: token, resetTokenExpiration: {$gt: Date.now()}, _id: userId})
+  User.findOne({
+    resetToken: passwordToken, 
+    resetTokenExpiration: {$gt: Date.now()}, 
+    _id: userId
+  })
   .then( user => {
     resetUser = user;
-    bcrypt.hash(newPassword, 12);
-
+    return bcrypt.hash(newPassword, 12);
   })
   .then(hashedPassword =>{
     resetUser.password = hashedPassword;
-    resetUser.restToken = undefined;
+    resetUser.resetToken = undefined;
     resetUser.resetTokenExpiration = undefined;
     return resetUser.save();
   })
@@ -265,6 +268,7 @@ exports.postNewPassword = (req, res, next) => {
     res.redirect('/login');
   })
   .catch(err => {
+    console.log(err);
     const error = new Error(err);
     error.httpStatusCode = 500;
     return next(error);
